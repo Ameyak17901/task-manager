@@ -1,18 +1,19 @@
 <div
-  class="container border p-5 flex-column w-100 shadow justify-content-center d-flex"
+  class="container border p-5 flex-column w-100 shadow justify-content-center d-flex pb-3 gap-3"
   data-bs-toggle="modal"
   data-bs-target="#staticBackdrop"
   #taskstable
+  id="tab"
 >
   <div class="d-flex justify-content-center">
     <button
       type="button"
-      class="w-25 btn border btn-primary"
+      class="w-auto btn border d-flex flex-row justify-content-around align-items-center btn-primary gap-2"
       data-bs-toggle="modal"
       data-bs-target="#staticBackdrop"
       (click)="openModal()"
     >
-      <span>
+      <span class="d-flex align-items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -32,144 +33,271 @@
       Add Task
     </button>
   </div>
-  <app-task-form #myModal (tasks)="(tasks)"></app-task-form>
-  <table class="table table-hover w-100">
-    <thead>
-      <tr>
-        <th scope="row">
-          Date
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Entity Name
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Task Type
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Time
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Contact person
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Notes
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-        <th scope="row">
-          Status
-          <span class="filter-icon align-items-center" role="button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-funnel-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-              />
-            </svg>
-          </span>
-        </th>
-      </tr>
-    </thead>
+  <app-task-form #myModal (tasks)="(tasks)" (dialog)="(dialog)"></app-task-form>
 
-    <tbody>
-      @for (task of tasks; track task.id) {
-      <tr class="flex justify-content-center">
-        <td class="justify-content-center">{{ task.date }}</td>
-        <td class="justify-content-center">{{ task.entityName }}</td>
-        <td class="justify-content-center">{{ task.taskType }}</td>
-        <td class="justify-content-center">{{ task.time }}</td>
-        <td class="justify-content-center">{{ task.contactPerson }}</td>
-        <td class="justify-content-center">{{ task.notes }}</td>
-        <td class="justify-content-center">{{ task.status }}</td>
-      </tr>
-      }
-    </tbody>
-  </table>
+  <mat-form-field
+    appearance="outline"
+    class="w-25"
+    [style]="showFilter ? '' : 'display:none'"
+  >
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input />
+  </mat-form-field>
+  <mat-table
+    [dataSource]="dataSource"
+    matSort
+    (matSortChange)="sortData($event)"
+  >
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Date
+        <span class="filter-icon align-items-center" role="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-funnel-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+            />
+          </svg>
+        </span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="entityName">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Entity Name
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.entityName }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="taskType">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Task Type
+        <button
+          matIconButton
+          [matMenuTriggerFor]="menu"
+          aria-label="Select task type"
+          class="btn"
+        >
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+        <mat-menu #menu="matMenu" class="bg-light">
+          <button mat-menu-item>
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Call', $event)"
+              value="Call"
+              >Call</mat-checkbox
+            >
+          </button>
+          <button mat-menu-item>
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Meeting', $event)"
+              value="Meeting"
+              >Meeting</mat-checkbox
+            >
+          </button>
+          <button mat-menu-item>
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Video Call', $event)"
+              value="Video Call"
+              >Video Call</mat-checkbox
+            >
+          </button>
+        </mat-menu>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.taskType }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Time
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.time }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="contactPerson">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Contact person
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.contactPerson }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="notes">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Notes
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.notes }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef class="fw-bold" mat-sort-header>
+        Status
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
+      </mat-header-cell>
+      <mat-cell
+        *matCellDef="let element"
+        [ngClass]="statusColor(element.status)"
+      >
+        <button matButton [matMenuTriggerFor]="beforeMenu" class="btn">
+          {{ element.status }}
+        </button>
+        <mat-menu #beforeMenu="matMenu" class="bg-light rounded-pill">
+          <mat-button-toggle-group (change)="changeStatus(element._id)">
+            <mat-button-toggle
+              [class]="
+                element.status === 'Open'
+                  ? 'rounded-pill bg-warning text-light'
+                  : ''
+              "
+              value="Open"
+              >Open
+            </mat-button-toggle>
+            <mat-button-toggle
+              value="Closed"
+              [class]="
+                element.status === 'Closed'
+                  ? 'rounded-pill bg-warning text-light'
+                  : ''
+              "
+              >Closed</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="options">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button
+          matIconButton
+          [matMenuTriggerFor]="menu"
+          class="btn top-0 d-flex align-items-top"
+        >
+          Options
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu" class="z-2 bg-light">
+          <button matButton class="btn" (click)="openEditModal(element._id)">
+            Edit
+          </button>
+          <button
+            mat-menu-item
+            matButton
+            class="btn"
+            (click)="changeStatus(element._id)"
+          >
+            Change Status to Closed
+          </button>
+          <button mat-menu-item (click)="createDuplicate(element._id)">
+            Duplicate
+          </button>
+          <button mat-menu-item (click)="deleteTask(element._id)">
+            Delete
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No data matching the filter "{{ input.value }}"
+      </td>
+    </tr>
+  </mat-table>
 </div>

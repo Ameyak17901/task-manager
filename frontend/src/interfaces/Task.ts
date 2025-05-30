@@ -1,8 +1,8 @@
 export interface Task {
-  id: string;
+  _id?: string;
   date: string;
   entityName: string;
-  taskType: string;
+  taskType: 'Call' | 'Meeting' | 'Video Call';
   time: string;
   contactPerson: string;
   notes?: string;
