@@ -21,15 +21,17 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="taskForm" (ngSubmit)="onSubmit($event)">
-          <mat-button-toggle-group
-            name="fontStyle"
-            class=" rounded position-end border w-25"
-            [formControl]="taskForm.controls['status']"
-            aria-label="Font Style"
-          >
-            <mat-button-toggle value="Open">Open</mat-button-toggle>
-            <mat-button-toggle value="Closed">Closed</mat-button-toggle>
-          </mat-button-toggle-group>
+          <div class="mb-3">
+            <mat-button-toggle-group
+              name="fontStyle"
+              class="rounded end-0 border w-auto"
+              [formControl]="taskForm.controls['status']"
+              aria-label="Font Style"
+            >
+              <mat-button-toggle value="Open">Open</mat-button-toggle>
+              <mat-button-toggle value="Closed">Closed</mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
 
           <div class="mb-3">
             <label for="entityname" class="form-label">Entity Name</label>
@@ -62,7 +64,7 @@
               [formControl]="taskForm.controls['notes']"
             />
           </div>
-          <div class="d-flex">
+          <div class="d-flex mb-3">
             <label for="date" class="form-label">Date</label>
             <input
               type="date"
@@ -78,7 +80,7 @@
               [formControl]="taskForm.controls['time']"
             />
           </div>
-          <div>
+          <div class="mb-3">
             <label for="contactPerson" class="form-label">Contact Person</label>
             <input
               type="text"
@@ -96,6 +98,7 @@
           type="button"
           class="btn btn-primary"
           data-bs-dismiss="modal"
+          mat-dialog-close
           (click)="close()"
         >
           Close

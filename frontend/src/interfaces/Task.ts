@@ -1,5 +1,5 @@
 export interface Task {
-  id: string;
+  _id?: string;
   date: string;
   entityName: string;
   taskType: string;

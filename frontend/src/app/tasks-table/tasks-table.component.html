@@ -3,6 +3,7 @@
   data-bs-toggle="modal"
   data-bs-target="#staticBackdrop"
   #taskstable
+  id="tab"
 >
   <div class="d-flex justify-content-center">
     <button
@@ -32,7 +33,8 @@
       Add Task
     </button>
   </div>
-  <app-task-form #myModal (tasks)="(tasks)"></app-task-form>
+  <app-task-form #myModal (tasks)="(tasks)" (dialog)="(dialog)"></app-task-form>
+  <app-edit-task-form #editModal (dialog)="(dialog)"></app-edit-task-form>
   <table class="table table-hover w-100">
     <thead>
       <tr>
@@ -155,19 +157,34 @@
             </svg>
           </span>
         </th>
+        <th></th>
       </tr>
     </thead>
 
     <tbody>
-      @for (task of tasks; track task.id) {
-      <tr class="flex justify-content-center">
-        <td class="justify-content-center">{{ task.date }}</td>
-        <td class="justify-content-center">{{ task.entityName }}</td>
-        <td class="justify-content-center">{{ task.taskType }}</td>
-        <td class="justify-content-center">{{ task.time }}</td>
-        <td class="justify-content-center">{{ task.contactPerson }}</td>
-        <td class="justify-content-center">{{ task.notes }}</td>
-        <td class="justify-content-center">{{ task.status }}</td>
+      @for (task of tasks; track task._id) {
+      <tr>
+        <td scope="row">{{ task.date }}</td>
+        <td scope="row">{{ task.entityName }}</td>
+        <td scope="row">{{ task.taskType }}</td>
+        <td scope="row">{{ task.time }}</td>
+        <td scope="row">{{ task.contactPerson }}</td>
+        <td scope="row">{{ task.notes }}</td>
+        <td scope="row">{{ task.status }}</td>
+        <td scope="row">
+          <button
+            matButton
+            [matMenuTriggerFor]="menu"
+            class="btn top-0 d-flex align-items-top"
+          >
+            Options
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button mat-menu-item>Duplicate</button>
+          </mat-menu>
+        </td>
       </tr>
       }
     </tbody>

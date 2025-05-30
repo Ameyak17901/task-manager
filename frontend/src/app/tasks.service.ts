@@ -10,6 +10,11 @@ import { Task } from '../interfaces/Task';
 export class TasksService {
   url = environment.apiUrl;
   constructor(private http: HttpClient) {}
+  
+  getTasks(): Observable<any> {
+    return this.http.get(`${this.url}/tasks`)
+  }
+  
   createTask(task: Partial<Task>): Observable<any> {
     return this.http.post(`${this.url}/tasks`, JSON.stringify(task), {
       headers: {

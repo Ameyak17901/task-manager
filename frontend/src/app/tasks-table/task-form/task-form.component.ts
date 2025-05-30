@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Task } from '../../../interfaces/Task';
@@ -7,6 +7,9 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { TasksService } from '../../tasks.service';
+import {
+  MatDialog,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-form',
@@ -29,7 +32,11 @@ export class TaskFormComponent {
     contactPerson: new FormControl(),
   });
 
-  constructor(private taskService: TasksService) {}
+  @Input() dialog: MatDialog = inject(MatDialog);
+
+  constructor(
+    private taskService: TasksService,
+  ) {}
 
   open() {
     if (this.modal) {
@@ -40,6 +47,7 @@ export class TaskFormComponent {
   close() {
     if (this.modal) {
       this.modal.nativeElement.style.display = 'none';
+      this.dialog.closeAll();
     }
   }
 
