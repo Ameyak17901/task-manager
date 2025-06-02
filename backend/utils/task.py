@@ -24,22 +24,22 @@ def create_tasks(task):
     except Exception as e:
         print(f"Error creating task: {e}")    
 
-def update_tasks(task_id, new_task):
+def update_tasks(task_id, task):
     try:
         # check if exists
-        task = tasks_collection.find_one({ "_id": ObjectId(task_id)})
+        existing_task = tasks_collection.find_one({ "_id": ObjectId(task_id)})
 
-        if task is None:
+        if existing_task is None:
             return None
 
         data: dict[str, str] = {
-            "entityName": new_task["entityName"],
-            "date": new_task["date"],
-            "taskType": new_task["taskType"],
-            "time": new_task["time"],
-            "contactPerson": new_task["contactPerson"],
-            "notes": new_task["notes"],
-            "status": new_task["status"],
+            "entityName": task["entityName"],
+            "date": task["date"],
+            "taskType": task["taskType"],
+            "time": task["time"],
+            "contactPerson": task["contactPerson"],
+            "notes": task["notes"],
+            "status": task["status"],
         }
 
         result = tasks_collection.update_one({ "_id": ObjectId(task_id)}, { "$set": data})
@@ -55,3 +55,19 @@ def get_tasks():
         return tasks_list
     except Exception as e:
         print(f'Error getting tasks: ', e)
+
+
+def change_task_status(task_id):
+    try:
+        existing_task = tasks_collection.find_one({ "_id": ObjectId(task_id)})
+        if existing_task is None:
+            return None
+        
+        updated_status = "Open" if existing_task['status'] == "Closed" else "Closed"
+
+        # update status
+        updated_task = tasks_collection.find_one_and_update( {"_id": ObjectId(task_id)}, { "$set": { "status": updated_status}})
+        print(updated_task)
+        return "updated successfully"
+    except Exception as e:
+        print(f"Error changing task status: {e}")

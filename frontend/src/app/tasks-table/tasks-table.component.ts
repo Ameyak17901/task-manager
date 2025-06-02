@@ -1,12 +1,23 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { TaskFormComponent } from './task-form/task-form.component';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogModule,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { TasksService } from '../tasks.service';
 import { Task } from '../../interfaces/Task';
 import { EditTaskFormComponent } from './edit-task-form/edit-task-form.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-tasks-table',
@@ -15,7 +26,15 @@ import { EditTaskFormComponent } from './edit-task-form/edit-task-form.component
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
-    EditTaskFormComponent,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatTableModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NgClass,
+    MatButtonToggleModule,
   ],
   templateUrl: './tasks-table.component.html',
   styleUrl: './tasks-table.component.css',
@@ -77,14 +96,43 @@ export class TasksTableComponent {
   @ViewChild('myModal', { static: false }) modal?: TaskFormComponent;
   @ViewChild('editModal', { static: false }) editModal?: EditTaskFormComponent;
   @ViewChild(MatMenuTrigger) trigger?: MatMenuTrigger;
-
   showBackdrop = false;
   constructor(public dialog: MatDialog, private taskService: TasksService) {}
+  showFilter: boolean = false;
+  setShowFilter() {
+    this.showFilter = !this.showFilter;
+  }
 
+  statusColor = (status: string) => {
+    return status === 'Open' ? 'text-warning' : 'text-success';
+  };
+
+  dataSource = new MatTableDataSource(this.tasks);
   setShowBackdrop() {
     this.showBackdrop = true;
     this.dialogConfig.hasBackdrop = true;
     this.dialog.open(TaskFormComponent, this.dialogConfig);
+  }
+  displayedColumns: string[] = [
+    'date',
+    'entityName',
+    'taskType',
+    'time',
+    'contactPerson',
+    'notes',
+    'status',
+    'options',
+  ];
+  applyFilter(event: Event) {
+    event.preventDefault();
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  setEditModal() {
+    this.showBackdrop = true;
+    this.dialogConfig.hasBackdrop = true;
+    this.dialog.open(EditTaskFormComponent, this.dialogConfig);
   }
 
   hideShowBackdrop() {
@@ -95,6 +143,7 @@ export class TasksTableComponent {
   getTasks() {
     this.taskService.getTasks().subscribe((tasks) => {
       this.tasks = tasks.tasks;
+      this.dataSource = new MatTableDataSource(this.tasks);
     });
   }
 
@@ -102,10 +151,26 @@ export class TasksTableComponent {
     this.trigger?.openMenu();
   }
 
-  openEditModal() {
-    this.editModal?.showModal();
+  applyTaskTypeFilter(event: Event) {
+    console.log((event?.target as HTMLInputElement));
+  }
+
+  openEditModal(id: string | undefined) {
+    const dialogRef = this.dialog.open(EditTaskFormComponent, {
+      height: '100vh',
+      width: '50vw',
+      data: {
+        taskId: id,
+      },
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+  changeStatus(id: string | undefined) {
+    this.taskService.changeTaskStatus(id).subscribe();
+    this.getTasks();
   }
   ngOnInit() {
+    console.log(this.dataSource);
     this.getTasks();
   }
 

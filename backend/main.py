@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from utils.task import create_tasks, get_tasks
+from utils.task import create_tasks, get_tasks, update_tasks, change_task_status
 from config.db import connect_db
 
 app = Flask(__name__)
@@ -34,3 +34,27 @@ def get_tasks_handler():
     except Exception as e:
         print(e)
         return { 'success': False, 'error': str(e)}
+
+@app.put("/tasks/<task_id>")
+def edit_task_handler(task_id):
+    try:
+        print(request.args)
+        data = request.get_json()
+        print(data)
+        result = update_tasks(task_id,data)
+        print(result)
+        return { "success": True, "message": "Task Updated Successfully..."}
+    except Exception as e:
+        print("error in updating tasks: ", e) 
+        return { "success": False, 'error': str(e)}   
+
+@app.put("/tasks/<task_id>/status")
+def change_task_status_handler(task_id: str):
+    try:
+        change_task_status(task_id)
+        return { "success": True, "message": "Task Status changed successfully"}
+    except Exception as exe:
+        print("Error changing status: ", exe)
+        return { "success": False, "status": "500", "error": "Internal Server Error"}            
+
+    
