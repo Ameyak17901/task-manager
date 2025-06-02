@@ -1,5 +1,5 @@
 <div
-  class="container border p-5 flex-column w-100 shadow justify-content-center d-flex pb-3"
+  class="container border p-5 flex-column w-100 shadow justify-content-center d-flex pb-3 gap-3"
   data-bs-toggle="modal"
   data-bs-target="#staticBackdrop"
   #taskstable
@@ -8,7 +8,7 @@
   <div class="d-flex justify-content-center">
     <button
       type="button"
-      class="w-25 btn border d-flex flex-row justify-content-around align-items-center btn-primary gap-2"
+      class="w-auto btn border d-flex flex-row justify-content-around align-items-center btn-primary gap-2"
       data-bs-toggle="modal"
       data-bs-target="#staticBackdrop"
       (click)="openModal()"
@@ -34,12 +34,15 @@
     </button>
   </div>
   <app-task-form #myModal (tasks)="(tasks)" (dialog)="(dialog)"></app-task-form>
-  @if(showFilter){
-  <mat-form-field appearance="outline">
+
+  <mat-form-field
+    appearance="outline"
+    class="w-25"
+    [style]="showFilter ? '' : 'display:none'"
+  >
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" #input />
   </mat-form-field>
-  }
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef class="fw-bold">
@@ -109,17 +112,23 @@
         </button>
         <mat-menu #menu="matMenu" class="bg-light">
           <button mat-menu-item>
-            <mat-checkbox (click)="applyTaskTypeFilter($event)"
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Call', $event)"
+              value="Call"
               >Call</mat-checkbox
             >
           </button>
           <button mat-menu-item>
-            <mat-checkbox (click)="applyTaskTypeFilter($event)"
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Meeting', $event)"
+              value="Meeting"
               >Meeting</mat-checkbox
             >
           </button>
           <button mat-menu-item>
-            <mat-checkbox (click)="applyTaskTypeFilter($event)"
+            <mat-checkbox
+              (click)="applyTaskTypeFilter('Video Call', $event)"
+              value="Video Call"
               >Video Call</mat-checkbox
             >
           </button>
@@ -196,20 +205,22 @@
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef class="fw-bold">
         Status
-        <span class="filter-icon align-items-center" role="button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-funnel-fill"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-            />
-          </svg>
-        </span>
+        <button matIconButton class="btn" (click)="setShowFilter()">
+          <span class="filter-icon align-items-center" role="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-funnel-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+              />
+            </svg>
+          </span>
+        </button>
       </th>
       <td
         mat-cell
@@ -219,10 +230,26 @@
         <button matButton [matMenuTriggerFor]="beforeMenu" class="btn">
           {{ element.status }}
         </button>
-        <mat-menu #beforeMenu="matMenu" class="bg-light">
+        <mat-menu #beforeMenu="matMenu" class="bg-light rounded-pill">
           <mat-button-toggle-group (change)="changeStatus(element._id)">
-            <mat-button-toggle value="Open">Open </mat-button-toggle>
-            <mat-button-toggle value="Closed">Closed</mat-button-toggle>
+            <mat-button-toggle
+              [class]="
+                element.status === 'Open'
+                  ? 'rounded-pill bg-warning text-light'
+                  : ''
+              "
+              value="Open"
+              >Open
+            </mat-button-toggle>
+            <mat-button-toggle
+              value="Closed"
+              [class]="
+                element.status === 'Closed'
+                  ? 'rounded-pill bg-warning text-light'
+                  : ''
+              "
+              >Closed</mat-button-toggle
+            >
           </mat-button-toggle-group>
         </mat-menu>
       </td>
@@ -251,7 +278,9 @@
           >
             Change Status to Closed
           </button>
-          <button mat-menu-item>Duplicate</button>
+          <button mat-menu-item (click)="createDuplicate(element._id)">
+            Duplicate
+          </button>
         </mat-menu>
       </td>
     </ng-container>
@@ -259,10 +288,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-    <!-- <tr class="mat-row" *matNoDataRow>
+    <tr class="mat-row" *matNoDataRow>
       <td class="mat-cell" colspan="4">
         No data matching the filter "{{ input.value }}"
       </td>
-    </tr> -->
+    </tr>
   </table>
 </div>

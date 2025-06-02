@@ -1,5 +1,18 @@
-import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  NgModule,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { Task } from '../../../interfaces/Task';
 import {
@@ -7,9 +20,7 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { TasksService } from '../../tasks.service';
-import {
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-task-form',
@@ -36,6 +47,7 @@ export class TaskFormComponent {
 
   constructor(
     private taskService: TasksService,
+    private formBuilder: FormBuilder
   ) {}
 
   open() {
@@ -53,9 +65,21 @@ export class TaskFormComponent {
 
   onSubmit(event: Event) {
     event.preventDefault();
+    if (this.taskForm.invalid) return;
     this.taskService
       .createTask(this.taskForm.value)
       .subscribe((response: any) => this.tasks.push(response.data));
     this.close();
+  }
+  ngOnInit() {
+    this.taskForm = this.formBuilder.group({
+      entityName: ['', Validators.required],
+      date: ['', Validators.required],
+      taskType: ['', Validators.required],
+      status: ['Open', Validators.required],
+      notes: [''],
+      time: ['', Validators.required],
+      contactPerson: ['', Validators.required],
+    });
   }
 }

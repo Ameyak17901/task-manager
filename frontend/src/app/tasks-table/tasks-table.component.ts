@@ -40,58 +40,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   styleUrl: './tasks-table.component.css',
 })
 export class TasksTableComponent {
-  tasks: Task[] = [
-    // {
-    //   id: '1',
-    //   date: '01/09/2025',
-    //   entityName: 'ABC Private Limited',
-    //   taskType: 'Call',
-    //   time: '1:00 p.m',
-    //   contactPerson: 'Frodo Baggins',
-    //   notes: 'Important task',
-    //   status: 'Open',
-    // },
-    // {
-    //   id: '2',
-    //   date: '01/09/2025',
-    //   entityName: 'ABC Private Limited',
-    //   taskType: 'Call',
-    //   time: '1:00 p.m',
-    //   contactPerson: 'Frodo Baggins',
-    //   notes: 'Important task',
-    //   status: 'Open',
-    // },
-    // {
-    //   id: '3',
-    //   date: '01/09/2025',
-    //   entityName: 'ABC Private Limited',
-    //   taskType: 'Call',
-    //   time: '1:00 p.m',
-    //   contactPerson: 'Frodo Baggins',
-    //   notes: 'Important task',
-    //   status: 'Closed',
-    // },
-    // {
-    //   id: '4',
-    //   date: '01/09/2025',
-    //   entityName: 'ABC Private Limited',
-    //   taskType: 'Call',
-    //   time: '1:00 p.m',
-    //   contactPerson: 'Frodo Baggins',
-    //   notes: 'Important task',
-    //   status: 'Open',
-    // },
-    // {
-    //   id: '5',
-    //   date: '01/09/2025',
-    //   entityName: 'ABC Private Limited',
-    //   taskType: 'Call',
-    //   time: '1:00 p.m',
-    //   contactPerson: 'Frodo Baggins',
-    //   notes: 'Important task',
-    //   status: 'Open',
-    // },
-  ];
+  tasks: Task[] = [];
   dialogConfig = new MatDialogConfig();
   @ViewChild('myModal', { static: false }) modal?: TaskFormComponent;
   @ViewChild('editModal', { static: false }) editModal?: EditTaskFormComponent;
@@ -151,8 +100,13 @@ export class TasksTableComponent {
     this.trigger?.openMenu();
   }
 
-  applyTaskTypeFilter(event: Event) {
-    console.log((event?.target as HTMLInputElement));
+  applyTaskTypeFilter(type: string, event: Event) {
+    if ((event.target as HTMLInputElement).checked) {
+      this.tasks = this.tasks.filter((task) => task.taskType === type);
+      this.dataSource = new MatTableDataSource(this.tasks);
+    } else {
+      this.getTasks();
+    }
   }
 
   openEditModal(id: string | undefined) {
@@ -170,8 +124,14 @@ export class TasksTableComponent {
     this.getTasks();
   }
   ngOnInit() {
-    console.log(this.dataSource);
     this.getTasks();
+  }
+
+  createDuplicate(id: string | undefined) {
+    const task = this.tasks.find((task) => task._id === id) as Partial<Task>;
+    this.taskService
+      .createTask(task)
+      .subscribe((res: any) => this.tasks.push(res.data));
   }
 
   openModal() {

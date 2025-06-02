@@ -6,7 +6,13 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   MatButtonToggleAppearance,
   MatButtonToggleModule,
@@ -54,16 +60,23 @@ export class EditTaskFormComponent {
 
   constructor(
     private taskService: TasksService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder
   ) {
     this.taskId = this.data.taskId;
   }
-  // showModal() {
 
-  //   if (this.editModal) {
-  //     this.editModal.nativeElement.style.display = 'block';
-  //   }
-  // }
+  ngOnInit() {
+    this.taskForm = this.formBuilder.group({
+      entityName: [this.data.entityName, Validators.required],
+      date: [this.data.date, Validators.required],
+      taskType: [this.data.taskType, Validators.required],
+      status: [this.data.status, Validators.required],
+      notes: [this.data.notes],
+      time: [this.data.time, Validators.required],
+      contactPerson: [this.data.contactPerson, Validators.required],
+    });
+  }
 
   onSubmit(event: Event) {
     try {
@@ -79,14 +92,5 @@ export class EditTaskFormComponent {
     } catch (error) {
       console.log(error);
     }
-    // console.log(this.taskForm.value);
-    // this.closeModal();
   }
-
-  // closeModal() {
-  //   if (this.editModal) {
-  //     this.editModal.nativeElement.style.display = 'none';
-  //     this.dialog.closeAll();
-  //   }
-  // }
 }
