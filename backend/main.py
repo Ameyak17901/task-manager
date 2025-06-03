@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from utils.task import create_tasks, get_tasks, update_tasks, change_task_status
+from utils.task import create_tasks, get_tasks, update_tasks, change_task_status, delete_task
 from config.db import connect_db
 
 app = Flask(__name__)
@@ -57,4 +57,14 @@ def change_task_status_handler(task_id: str):
         print("Error changing status: ", exe)
         return { "success": False, "status": "500", "error": "Internal Server Error"}            
 
-    
+@app.delete("/tasks/<task_id>")
+def delete_task_handler(task_id: str):
+    try:
+        results = delete_task(task_id)
+        if results is None:
+            return { "success": False, "message": "Task not found"}
+        
+        return { "success": True, "message": "Task deleted successfully"}
+    except Exception as exe:
+        print(f"Error deleting task: {exe}")
+        return { "success": False, "status": "500", "error": "Internal Server Error"}        

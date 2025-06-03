@@ -71,3 +71,18 @@ def change_task_status(task_id):
         return "updated successfully"
     except Exception as e:
         print(f"Error changing task status: {e}")
+
+def delete_task(task_id):
+    try:
+        task = tasks_collection.find_one({ "_id": ObjectId(task_id)})
+        # check task exists
+        if task is None:
+            return None
+        
+        # delete task
+        result = tasks_collection.delete_one({ "_id": ObjectId(task_id)})
+        if result.deleted_count == 0:
+            return None
+        return "deleted successfully"
+    except Exception as exe:
+        print(f"Error deleting task: {exe}")

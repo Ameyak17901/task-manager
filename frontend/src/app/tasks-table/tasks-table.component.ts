@@ -18,6 +18,11 @@ import { MatInput, MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSortModule, Sort } from '@angular/material/sort';
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
 
 @Component({
   selector: 'app-tasks-table',
@@ -35,6 +40,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     FormsModule,
     NgClass,
     MatButtonToggleModule,
+    MatSortModule,
   ],
   templateUrl: './tasks-table.component.html',
   styleUrl: './tasks-table.component.css',
@@ -46,7 +52,10 @@ export class TasksTableComponent {
   @ViewChild('editModal', { static: false }) editModal?: EditTaskFormComponent;
   @ViewChild(MatMenuTrigger) trigger?: MatMenuTrigger;
   showBackdrop = false;
-  constructor(public dialog: MatDialog, private taskService: TasksService) {}
+  sortedData: Task[] = [];
+  constructor(public dialog: MatDialog, private taskService: TasksService) {
+    this.sortedData = this.tasks.slice();
+  }
   showFilter: boolean = false;
   setShowFilter() {
     this.showFilter = !this.showFilter;
@@ -56,7 +65,35 @@ export class TasksTableComponent {
     return status === 'Open' ? 'text-warning' : 'text-success';
   };
 
-  dataSource = new MatTableDataSource(this.tasks);
+  sortData(event: Sort) {
+    if (!event.active || event.direction === '') {
+      this.sortedData = this.tasks;
+      return;
+    }
+    this.sortedData = this.tasks.sort((a, b) => {
+      const isAsc = event.direction === 'asc';
+      switch (event.active) {
+        case 'date':
+          return compare(a.date, b.date, isAsc);
+        case 'entityName':
+          return compare(a.entityName, b.entityName, isAsc);
+        case 'taskType':
+          return compare(a.taskType, b.taskType, isAsc);
+        case 'time':
+          return compare(a.time, b.time, isAsc);
+        case 'contactPerson':
+          return compare(a.contactPerson, b.contactPerson, isAsc);
+        case 'notes':
+          return compare(a.notes || '', b.notes || '', isAsc);
+        case 'status':
+          return compare(a.status, b.status, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+
+  dataSource = new MatTableDataSource(this.sortedData);
   setShowBackdrop() {
     this.showBackdrop = true;
     this.dialogConfig.hasBackdrop = true;
@@ -134,6 +171,11 @@ export class TasksTableComponent {
       .subscribe((res: any) => this.tasks.push(res.data));
   }
 
+  deleteTask(id: string | undefined) {
+    this.taskService.deleteTask(id).subscribe(() => {
+      this.getTasks();
+    });
+  }
   openModal() {
     this.modal?.open();
     this.setShowBackdrop();

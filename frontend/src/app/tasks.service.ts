@@ -39,4 +39,8 @@ export class TasksService {
       },
     });
   }
+
+  deleteTask(id: string | undefined) {
+    return this.http.delete(`${this.url}/tasks/${id}`);
+  }
 }
