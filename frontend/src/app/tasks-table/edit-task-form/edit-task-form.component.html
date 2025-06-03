@@ -116,7 +116,7 @@
 
 <div class="d-flex p-3 flex-column">
   <h2 class="text-center">Edit Task</h2>
-  <mat-dialog-content class="mat-typography" >
+  <mat-dialog-content class="mat-typography">
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit($event)">
       <div class="mb-3">
         <mat-button-toggle-group
@@ -149,6 +149,7 @@
         >
           <option selected value="Call">Call</option>
           <option value="Meeting">Meeting</option>
+          <option value="Video Call">Video Call</option>
         </select>
       </div>
       <div class="mb-3">
