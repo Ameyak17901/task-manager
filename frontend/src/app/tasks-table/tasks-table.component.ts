@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { TaskFormComponent } from './task-form/task-form.component';
 import {
   MatDialog,
@@ -18,7 +18,7 @@ import { MatInput, MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -45,16 +45,27 @@ function compare(a: number | string, b: number | string, isAsc: boolean) {
   templateUrl: './tasks-table.component.html',
   styleUrl: './tasks-table.component.css',
 })
-export class TasksTableComponent {
+export class TasksTableComponent implements AfterViewInit {
   tasks: Task[] = [];
   dialogConfig = new MatDialogConfig();
   @ViewChild('myModal', { static: false }) modal?: TaskFormComponent;
   @ViewChild('editModal', { static: false }) editModal?: EditTaskFormComponent;
   @ViewChild(MatMenuTrigger) trigger?: MatMenuTrigger;
+  @ViewChild(MatSort) sort?: MatSort;
   showBackdrop = false;
+
   sortedData: Task[] = [];
+  dataSource: MatTableDataSource<Task>;
   constructor(public dialog: MatDialog, private taskService: TasksService) {
+    const tasksList: Task[] = [...this.tasks];
+    this.dataSource = new MatTableDataSource(tasksList);
     this.sortedData = this.tasks.slice();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
   }
   showFilter: boolean = false;
   setShowFilter() {
@@ -93,7 +104,6 @@ export class TasksTableComponent {
     });
   }
 
-  dataSource = new MatTableDataSource(this.sortedData);
   setShowBackdrop() {
     this.showBackdrop = true;
     this.dialogConfig.hasBackdrop = true;
